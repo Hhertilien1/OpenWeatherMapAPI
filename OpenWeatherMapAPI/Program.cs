@@ -2,7 +2,11 @@
 {
     var client = new HttpClient();
 
-    var openWeatherMapApi = "https://api.openweathermap.org/data/2.5/weather?zip=32810&appid=d165a6bfbc939e22cadc6fbfeb89aaaf&units=imperial";
+    var apiKeyObj = File.ReadAllText("appsettings.json");
+
+    var apiKey = JObject.Parse(apiKeyObj).GetValue("apiKey").ToString();
+
+    var openWeatherMapApi = $"https://api.openweathermap.org/data/2.5/weather?zip=32810&appid={apiKey}&units=imperial";
 
     var orlandoTemps = client.GetStringAsync(openWeatherMapApi).Result;
     var myTemp = JObject.Parse(orlandoTemps)["main"]["temp"].ToString();
